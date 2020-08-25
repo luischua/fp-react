@@ -15,11 +15,11 @@ export function createFormData(form){
     formData.append('idpic', {uri: form.idPicker, type: 'image/jpeg', name: 'id.jpg'});
     formData.append('fingerprint', {uri: form.fingerprintPicker, type: 'image/tiff', name: 'fingerprint.tiff'});        
     formData.append('name', form.name);
-    if(form.birthDate != null){
-        formData.append('birthdate', moment(form.birthDate).format('YYYY-MM-DD'));
+    if(form.birthDate != null && form.birthDate != 'Invalid date'){
+        formData.append('birthdate', form.birthDate);
     } 
     return formData;
-  }
+}
 
 export default function FPRegister(props) {
   const [visible, setVisible] = useState(false); 
@@ -42,17 +42,16 @@ export default function FPRegister(props) {
     
     const formValue = {
         id: v4(),
-        idpic: idPicker,
+        idPicker: idPicker,
         fingerprintPicker: fingerprintPicker,
         name: values.name,
         birthDate: moment(values.birthDate).format('YYYY-MM-DD')
     }
-    log(formValue)
     if(formValue.name == ''){
         alert("missing Name")
         return
     }
-    if(formValue.idpic == null){
+    if(formValue.idPicker == null){
         alert("missing ID Pic")
         return
     }
@@ -68,18 +67,20 @@ export default function FPRegister(props) {
         }else{
             log("Trigger Post");
             const formData = createFormData(formValue)
+            log(formData);
             axios.post(httpUrl()+'/register', formData, {
             headers: {
                 'content-type': 'multipart/form-data' 
                 }
             })
             .then(function (response) {
-                toggle();
                 if(response.data.error){
+                    alert(response.data.error);
                     //setStatus({success: false})
                     //setSubmitting(false)
                     //setErrors({submit: response.data.error})
                 }else{
+                    toggle();
                     //setStatus({success: true})
                     setPerson(response.data.person);
                     setIdPicker(null);

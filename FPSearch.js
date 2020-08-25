@@ -47,7 +47,7 @@ export default class FPSearch extends React.Component {
                 }
                 {!loading && !errorHttp && personList.length > 0 &&
                     <SafeAreaView>    
-                        <FPPersonTable compType='card' personList={personList}/>   
+                        <FPPersonTable compType='flatlist' personList={personList}/>   
                     </SafeAreaView>
                 }
                 {!loading && !errorHttp && personList.length == 0 &&

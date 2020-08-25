@@ -11,9 +11,6 @@ const FPPersonTable = (props) => {
                 <FlatList 
                     ItemSeparatorComponent={FPFlatListSeparator}
                     data={props.personList}
-                    keyExtractor={({ item }) => 
-                        item.id
-                    }
                     renderItem={({ item }) => 
                         <FPRecord record={item} />
                     }
