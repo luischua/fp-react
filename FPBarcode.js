@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Dimensions, Image } from 'react-native';
+import { Text, View, StyleSheet, Button, Dimensions, Image, ScrollView } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import axios from 'axios';
 import Constants from 'expo-constants';
-import {httpUrl} from "./FPUtil";
+import {log, httpUrl} from "./FPUtil";
+import FPRecord from './FPRecord';
 
 export default function FPBarcode() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [person, setPerson] = useState();
-
+  const [retrieve, setRetrieve] = useState();
+  
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -20,14 +22,16 @@ export default function FPBarcode() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    setRetrieve(true);
     findPersonByID(data);
   };
   
   const findPersonByID = (id) => {
-    id = "1be37d937ae54aadaff9f7aaad95391e"
+    log(httpUrl()+"/person/"+id);
     axios.get(httpUrl()+"/person/"+id, {timeout: 10000})
     .then(response => {
-        setPerson(response.data);    
+        setPerson(response.data);
+        setRetrieve(false);    
     })
     .catch(error => {
         console.log(error);
@@ -56,9 +60,14 @@ export default function FPBarcode() {
           {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />} 
       </View>
       <View style={{flex:.5}}>
-        {person &&
-          <FPRecord record={person} />
-        }
+        <ScrollView>
+          {retrieve &&
+            <Text>Retrieving Record...</Text>
+          }
+          {person &&
+            <FPRecord record={person} />
+          }
+        </ScrollView>
       </View>
     </View>
   );

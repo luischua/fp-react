@@ -20,11 +20,13 @@ const FPSearchBox = (props) => (
                     value={values.searchText} 
                 />
             </Item>
-            <Button rounded
-                onPress={handleSubmit}>
-                <Text>Search</Text>    
-                <Icon name='search' />    
-            </Button>
+            <Item>
+                <Button rounded
+                    onPress={handleSubmit}>
+                    <Text>Search</Text>    
+                    <Icon name='search' />    
+                </Button>
+            </Item>
         </Form>     
         )}
     </Formik> 

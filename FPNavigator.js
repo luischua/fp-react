@@ -7,9 +7,11 @@ import FPSearch from './FPSearch';
 import HomeScreen from './HomeScreen'
 import FPRegister from './FPRegister'
 import FPBarcode from './FPBarcode'
-
+import FPOffline from './FPOffline'
+import {getTranslations} from "./FPUtil";
 const Tab = createBottomTabNavigator();
 //enableScreens(true);
+const i18n = getTranslations();
 
 export default function FPNavigator() {
   return (
@@ -18,9 +20,10 @@ export default function FPNavigator() {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray',
         }}>
-        <Tab.Screen name="Search" component={FPSearch} />
-        <Tab.Screen name="Register" component={FPRegister} />   
-        <Tab.Screen name="Scan" component={FPBarcode} />           
+        <Tab.Screen name={i18n.t("Search")} component={FPSearch} />
+        <Tab.Screen name={i18n.t("Register")} component={FPRegister} />   
+        <Tab.Screen name="Scan" component={FPBarcode} />
+        <Tab.Screen name="Offline" component={FPOffline} />   
         </Tab.Navigator>
     </NavigationContainer>
   );

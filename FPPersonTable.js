@@ -3,6 +3,7 @@ import {FlatList} from 'react-native';
 import {Container, Header, View, Button, Icon, Text, DeckSwiper} from 'native-base';
 import FPRecord from './FPRecord';
 import FPFlatListSeparator from './FPFlatListSeparator';
+import { log } from 'react-native-reanimated';
 const FPPersonTable = (props) => {
     return (
         <>
@@ -10,7 +11,10 @@ const FPPersonTable = (props) => {
                 <FlatList 
                     ItemSeparatorComponent={FPFlatListSeparator}
                     data={props.personList}
-                    renderItem={({ item, index, separators }) => 
+                    keyExtractor={({ item }) => 
+                        item.id
+                    }
+                    renderItem={({ item }) => 
                         <FPRecord record={item} />
                     }
                 />

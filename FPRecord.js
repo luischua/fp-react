@@ -16,14 +16,15 @@ export default function FpRecord(props){
   const [fingerprintPicker, setFingerprintPicker] = React.useState(); 
   const [match, setMatch] = React.useState("Processing....."); 
   const record = props.record;
-
+  console.log("Record")
+  console.log(record)
   return (
     <>
       <Card style={{elevation: 3}}>
         <CardItem>
           <Left>
             <QRCode
-              content={"Test"}
+              content={record._id}
               codeStyle='dot'
               outerEyeStyle='square' 
               innerEyeStyle='circle'
@@ -40,10 +41,18 @@ export default function FpRecord(props){
           </Body>
         </CardItem>
         <CardItem>
-            <Image
-              source={{uri: `data:image/${record.idImageExtension};base64,${record.idImage}`,}}
+            {record.idImage &&
+              <Image
+                source={{uri: `data:image/${record.idImageExtension};base64,${record.idImage}`,}}
+                style={{height: 200, width: 200, flex: 1}}
+              />
+            }
+            {record.idpic &&
+              <Image
+              source={{uri: record.idpic}}
               style={{height: 200, width: 200, flex: 1}}
-            />
+              />
+            }
         </CardItem>  
         { record.verifiedStatus
             ?<>

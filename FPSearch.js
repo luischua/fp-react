@@ -4,7 +4,7 @@ import { Container, Header, Left, Body, Title, Right, Content, Text, Button} fro
 import axios from 'axios';
 import FPSearchBox from './FPSearchBox'
 import FPPersonTable from './FPPersonTable'
-import {httpUrl} from "./FPUtil";
+import {log, httpUrl} from "./FPUtil";
 export default class FPSearch extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +16,7 @@ export default class FPSearch extends React.Component {
     }
 
     triggerSearch = (searchText) => {
-        //alert(httpUrl()); 
+        log("Trigger Search"); 
         this.setState({loading: true});
         axios.get(httpUrl()+"/search/"+searchText, {timeout: 10000})
         .then(response => {
